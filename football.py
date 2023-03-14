@@ -7,14 +7,33 @@
 
 import random
 #Created a board 1x6 that goes through A-F
-print(" |A|B|C|D|E|F|")
+hidden_bishops = [[""] for x in range(1, 7)]
+letter_to_num = {" ":0, "A":1, "B":2, "C":3, "D":4, "E":5, "F":6}
 
-for x in range(1, 7):
-    row = ""
-    for y in range(6):
-        col = "_|"
-        row = row + col
-    print(x, row)
+#First method to display the football board
+print(" |A|B|C|D|E|F|")
+def display_board(board):
+    for x in range(1, 7):
+        row = ""
+        for y in range(6):
+            col = "_|"
+            row = row + col
+        print(x, row)
+    return "   --|___|--"
+
+#Provide a random number of 1/3 chances for shooting to the net
+def score_goal(goal):
+    for row in display_board(hidden_bishops):
+        last_row = 7
+        if goal == random.randint(1, 3):
+            net = " --|_o_|--"
+        else:
+            net = " --|_x_|--"
+    print(last_row, net)
+
+print(score_goal(1))
+
+
 
 #Goal setup, using random.choice
 goal_t = "T"
