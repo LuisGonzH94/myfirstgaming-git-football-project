@@ -1,6 +1,6 @@
 #I ended up using example at "https://copyassignment.com/battleship-game-code-in-python/#complete-code" 
 #At first, I got the idea on how to make up my displa_board function, but struggle in setting up a fuction
-#that can find the bishops. 
+#to find the bishops. 
 # I added few things like the goal A.K.A "the rook". THe bishop and the rook are an idea I implemented for those who like
 #playing chess.
 #Create a variable to keep the total of goals the player makes after finding a bishop.
@@ -49,7 +49,7 @@ def create_bishops(board):
             bishop_r, bishop_cl = random.randint(1, 5), random.randint(1, 5)
         board[bishop_r][bishop_cl] = "b"
 
-#method to track 
+#method to track turns
 def count_found_bishops(board):
     count = 0
     for row in board:
@@ -61,7 +61,7 @@ def count_found_bishops(board):
 create_bishops(hidden_bishops)
 turns = 21
 goal_num = "137"
-
+#Track the total of goals a player can make when finding a bishop at a time
 score = 0
 total_goals = []
 print("Welcome to Football the 'Bishop' vs the 'Rook'")
