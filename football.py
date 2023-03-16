@@ -1,102 +1,112 @@
-#Started all over again because I did not want to copy and paste from other coders that create the battleship game. 
-#Although, I am doing some research since there are some functions I need to keep practicing. 
-#However, this file is not a battleship game; it is a football game where the user will need to find the hidden players('O') and score. 
-#Rules: a) Find the 5 players. b) If one player is found, then the user can shoot to goal. Else, user can try finding another player until getting 5.
-#c) Turns will vary depending on how fast the user find the hidden players. One player found, one extra turn to shoot to goal.
-#d) Last, The higher goals, the better chance to beat the game. Choices will be on for user to decide. Get goals, or find all players first. 
+#I ended up using example at "https://copyassignment.com/battleship-game-code-in-python/#complete-code" 
+#At first, I got the idea on how to make up my displa_board function, but struggle in setting up a fuction
+#that can find the bishops. 
+# I added few things like the goal A.K.A "the rook". THe bishop and the rook are an idea I implemented for those who like
+#playing chess.
+#Create a variable to keep the total of goals the player makes after finding a bishop.
+#Random number will be important for the player to guess in order to score. 
+#The main objective is to find a bishop and then shoot to score a goal. 
+#You can play with another person; the winner will be whoever find the more bishops and have the greater total goals.
+ 
+import random
 
-from random import randint
-
+#Attributes to implement that will display our board.
 hidden_bishops=[[" "]*7 for x in range(6)]
 guess_pattern=[[" "]*7 for x in range(6)]
 
-letter_to_num={" ": 0, "A":1,"B":2, "C":3,"D":4,"E":5,"F":6}
+#Created a Dict to keep track of the values for our Keys (in this case letter).
+letter_to_num = {" ": 0, "A":1,"B":2, "C":3,"D":4,"E":5,"F":6}
 
+#Created a board that will display letter as colum and number as row, and the goal at the bottom. 
+#'R' == the Rook
+#%d and %s are used to print a number along with a string together. 
 def print_board(board):
     print(" "*3, "|A|B|C|D|E|F|")
-    net = "  >>>>>|_R_|<<<<<<"
-    row_num= 1
+    row_num = 1
     for row in board:
-        print("%d|>%s|<" % (row_num, "|".join(row)))
+        print("%d|>%s| <0" % (row_num, "|".join(row)))
         row_num +=1
-    print(net)
+    print("  >>>>>|_R_|<<<<<<")
   
 def get_bishops_location():
     #Enter the row number between 1 to 6
-    row=input('Please enter a row number: 1-6 ')
-    while row not in '123456':
+    row = input("Please enter a row number: 1-6 ")
+    while row not in "123456":
         print("Please enter a valid row number ")
-        row=input('Please enter a ship row 1-6 ')
+        row = input("Please enter a row number 1-6 ")
     #Enter the column letter from A TO F
-    column=input("Please enter a column letter: A-F ").upper()
+    column = input("Please enter a valid column letter: A-F ").upper()
     while column not in letter_to_num:
         print("Please enter a valid column letter ")
-        column=input("Please enter a ship column A-F ")
+        column = input("Please enter a valid column letter: A-F ")
     return int(row)-1,letter_to_num[column]
 
-# #Function that creates bishop spots
-def create_ships(board):
-    for bishop in range(5):
-        bishop_r, bishop_cl= randint(1,5), randint(1,5)
-        while board[bishop_r][bishop_cl] =='B':
-            bishop_r, bishop_cl= randint(1,5), randint(1,5)
-        board[bishop_r][bishop_cl] = 'B'
+# #Function that spawn bishop spots
+def create_bishops(board):
+    for bishop in range(7):
+        bishop_r, bishop_cl = random.randint(1, 5), random.randint(1, 5)
+        while board[bishop_r][bishop_cl] == "b":
+            bishop_r, bishop_cl = random.randint(1, 5), random.randint(1, 5)
+        board[bishop_r][bishop_cl] = "b"
 
-def count_hit_ships(board):
-    count=0
+#method to track 
+def count_found_bishops(board):
+    count = 0
     for row in board:
         for column in row:
-            if column=='B':
-                count+=1
+            if column == "b":
+                count += 1
     return count
 
-create_ships(hidden_bishops)
-turns = 50
-goal = 0
+create_bishops(hidden_bishops)
+turns = 21
+goal_num = "137"
+
 score = 0
-total_goals = [0]
-print("Welcome to Football the 'Bishop' vs the 'Rool'")
+total_goals = []
+print("Welcome to Football the 'Bishop' vs the 'Rook'")
 while turns > 0:
     
     print_board(guess_pattern)
     row,column = get_bishops_location()
-    goal = randint (1, 3)
-    if guess_pattern[row][column] == '-':
-        print(' You already guessed that ')
-    elif hidden_bishops[row][column] =='B':
-        print(' Congratulations you have found a bishop ')
-        guess_pattern[row][column] = 'B'
+    lucky_goal_num = random.choice(goal_num)
+    if guess_pattern[row][column] == "-":
+        print(">> You already guessed that ")
+    elif hidden_bishops[row][column] =='b':
+        print(">> Great! You have found a bishop ")
+        guess_pattern[row][column] = "b"
 
-        guess_num = input("Enter a number from 1 to 3 to score one goal ")
-        while goal == 0:
-         print("  >>>>>|_K_|<<<<<<")
-        if  goal == 1:
-            print("|__|" + "|_o_|")
-            print("GOOOAAALLL! - You got one extra point ")
+        guess_num = input("Enter a lucky number '1, 3 or 7' to score one goal ")
+        if  guess_num == lucky_goal_num:
+            print(">>|_o_| -> _|_GOAL_|_")
+            print("**You got one extra turn** ")
             turns += 1
-            score += 1
+            score = 1
             total_goals.append(score)
         else:
-            print("|_K_|" + "|_x_|")
-            print("You miss! The Rook is a brick wall" )
+            print(">>|_o_| -> _|_MISS_|_")
+            print("The Rook is a brick wall" )
             turns -= 1
     else:
-        print('Sorry,You missed')
-        guess_pattern[row][column] = '-'
+        print(">> Sorry,You missed")
+        guess_pattern[row][column] = "-"
         turns -= 1                     
 
-    if  count_hit_ships(guess_pattern) == 5:
-        print("Congratulations you have found all Bishops ")
-        if  goal == 1:
-            print("|__|" + "|_o_|")
-            print("GOOOAAALLL! - Last minute goal ")
+    if  count_found_bishops(guess_pattern) == 7:
+        
+        if  guess_num == lucky_goal_num:
+            print("Congratulations you have found all Bishops ")
+            print(">>|_o_| -> _|_GOAL_|_")
+            print("You score a last minute goal ")
         else:
-            print("|_K_|" + "|_x_|")
-            print("You miss last goal" )
+            print("Oops! you have found all Bishops; unfortunately...")
+            print(">>|_o_| -> _|_MISS_|_")
+            print("...you miss the last goal" )
         print(f"total goal: {sum(total_goals)}")
         break
-    print(' You have ' +str(turns) + ' turns remaining ')
-
+    print(f" You have {turns} turns remaining ")
+    
     if turns == 0:
-        print('Game Over ')
+        print("Game Over ")
+        print(f"total goal: {sum(total_goals)}")
         break
