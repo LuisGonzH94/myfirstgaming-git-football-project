@@ -1,13 +1,3 @@
-#I ended up using example at "https://copyassignment.com/battleship-game-code-in-python/#complete-code" 
-#At first, I got the idea on how to make up my displa_board function, but struggle in setting up a fuction
-#to find the bishops. 
-# I added few things like the goal A.K.A "the rook". THe bishop and the rook are an idea I implemented for those who like
-#playing chess.
-#Create a variable to keep the total of goals the player makes after finding a bishop.
-#Random number will be important for the player to guess in order to score. 
-#The main objective is to find a bishop and then shoot to score a goal. 
-#You can play with another person; the winner will be whoever find the more bishops and have the greater total goals.
- 
 import random
 
 #Attributes to implement that will display our board.
