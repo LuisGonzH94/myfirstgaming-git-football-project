@@ -1,4 +1,4 @@
-# mygaming-git-project
+# myfirstgaming-git-football-project
 This git is for the final project of codecademy - CS101
 
 I ended up using example made by Pranjal Dev August 8, 2022. Retrived from "https://copyassignment.com/battleship-game-code-in-python/#complete-code" 
